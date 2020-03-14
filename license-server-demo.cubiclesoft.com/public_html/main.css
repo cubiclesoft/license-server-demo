@@ -1,0 +1,111 @@
+@font-face { font-family: site-font; src: url('res/main.woff'); }
+
+html, body { margin: 0; padding: 0; height: 100%; }
+body { font-family: site-font, Veranda, Arial, Helvetica, sans-serif; color: #222222; box-sizing: border-box; }
+
+a { color: #4E88C2; text-decoration: none; }
+a:hover { color: #297ACC; text-decoration: underline; }
+div-embed { display: block; }
+
+.headerwrap { background-color: #182434; box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.35); }
+.menuwrap { display: table; margin: 0 auto; width: 100%; max-width: 920px; }
+.menuinner { display: table-row; }
+.menuleft { display: table-cell; padding: 1em; width: 1px; line-height: 0; }
+.menuleft a, .menuleft img { display: inline-block; }
+.menuright { display: table-cell; white-space: nowrap; text-align: right; color: #FFFFFF; vertical-align: top; }
+.menuright a { color: #F3F3F3; display: inline-block; border-left: 1px solid #294060; padding: 1.79em 1.5em; }
+.menuright a:last-child { border-right: 1px solid #294060; }
+.menuright a:hover { color: #FFFFFF; background-color: #294060; text-decoration: none; }
+.menuright a .menuiteminner { font-size: 1.3em; }
+
+@media (max-width: 980px) {
+	.menuright a:last-child { margin-right: 1em; }
+}
+
+@media (max-width: 750px) {
+	.menuwrap { display: block; }
+	.menuinner { display: block; }
+	.menuleft { display: block; text-align: center; width: auto; }
+	.menuleft img { max-width: 100%; }
+	.menuright { display: block; text-align: center; border-top: 1px solid #294060; }
+	.menuright a { padding: 1em 1.5em; }
+	.menuright a:last-child { margin-right: 0; }
+	.menuright a .menuiteminner { font-size: 1.1em; }
+}
+
+.contentwrap { font-size: 1.2em; margin: 0 auto; max-width: 920px; line-height: 1.8; min-height: 50%; }
+.contentwrapinner { padding: 0 1em 1em 1em; }
+
+.contentwrapinner h1, h2, h3, h4, h5, h6 { margin-bottom: 0.5em; }
+
+.contentwrap.fancycontent :first-child { margin-top: 0.5em; }
+.contentwrap.fancycontent h2 { text-align: center; font-size: 2.1em; font-weight: bold; }
+
+@media (max-width: 640px) {
+	body { font-size: 0.9em; }
+	.contentwrap.fancycontent h2 { font-size: 1.5em; }
+}
+
+.contentwrapinner img, .contentwrapinner a img { max-width: 100%; }
+.contentwrapinner > img:not(.no-break), .contentwrapinner > a img:not(.no-break) { display: block; max-width: calc(100% + 2em); margin: 1em -1em 0; }
+
+.contentwrap.fancycontent .contentwrapinner > img { margin-top: 2.5em; }
+.contentwrap.fancycontent .contentwrapinner > img + h1, .contentwrap.fancycontent .contentwrapinner > img + h2, .contentwrap.fancycontent .contentwrapinner > img + h3,
+.contentwrap.fancycontent .contentwrapinner > img + h4, .contentwrap.fancycontent .contentwrapinner > img + h5, .contentwrap.fancycontent .contentwrapinner > img + h6 { margin-top: 0.5em; }
+
+.contentwrapinner div-embed { margin: 1em 0; }
+.contentwrapinner > div-embed:not(.no-break) { max-width: calc(100% + 2em); margin: 1em -1em 0; }
+
+.contentwrap.fancycontent .contentwrapinner > div-embed { margin-top: 2.5em; }
+.contentwrap.fancycontent .contentwrapinner > div-embed + h1, .contentwrap.fancycontent .contentwrapinner > div-embed + h2, .contentwrap.fancycontent .contentwrapinner > div-embed + h3,
+.contentwrap.fancycontent .contentwrapinner > div-embed + h4, .contentwrap.fancycontent .contentwrapinner > div-embed + h5, .contentwrap.fancycontent .contentwrapinner > div-embed + h6 { margin-top: 0.5em; }
+
+.contentwrapinner .buttonswrap { text-align: center; line-height: 1.0; }
+.contentwrapinner .buttonswrap a { display: inline-block; margin: 0.5em 0.7em; border-radius: 3px; background-color: #FFFFFF; padding: 0.7em; font-size: 1.2em; text-decoration: none; white-space: nowrap; border: 1px solid #4E88C2; }
+.contentwrapinner .buttonswrap a:hover { border-color: #297ACC; color: #297ACC; background-color: #F3F3F3; }
+
+.footerwrap { background-color: #182434; padding: 2.5em 0 2em; }
+.footerinnerwrap { margin: 0 auto; max-width: 920px; color: #F0F0F0; }
+.footerinner { margin: 0 3em; font-size: 0.9em; }
+.footerinner .footercols { display: flex; }
+.footerinner .footercol { width: 300px; max-width: 100%; margin-right: 2em; }
+.footerinner .itemswrap .itemstitle { font-weight: bold; margin-top: 1.5em; }
+.footerinner .itemswrap .itemstitle:first-child { margin-top: 0; }
+.footerinner .itemswrap a { color: #CCCCCC; display: block; margin-top: 0.1em; }
+.footerinner .itemswrap a:hover { color: #EEEEEE; }
+.footerinner .copyright { margin-top: 2em; border-top: 1px solid #294060; padding-top: 0.5em; }
+.footerinner .copyright a { color: #CCCCCC; }
+.footerinner .copyright a:hover { color: #EEEEEE; }
+
+@media (max-width: 600px) {
+	.footerwrap { padding: 2em 0; }
+	.footerinner { margin: 0 2em; }
+	.footerinner .footercols { display: block; }
+	.footerinner .footercol { margin-top: 1.5em; }
+	.footerinner .footercol:first-child { margin-top: 0; }
+}
+
+
+div.sso_server_message_wrap { margin-top: 2.0em; max-width: 700px; }
+div.sso_selector_wrap { margin-top: 2.0em; margin-bottom: 2.0em; max-width: 700px; min-height: 50%; }
+div.sso_server_message_wrap ~ div.sso_selector_wrap { margin-top: 1.0em; }
+div.sso_main_wrap { margin-top: 2.0em; margin-bottom: 2.0em; max-width: 700px; min-height: 50%; }
+div.sso_server_message_wrap ~ div.sso_main_wrap { margin-top: 1.0em; }
+div.sso_login_signin, div.sso_login_signup { float: right; margin-top: 5px; }
+
+.ff_formwrap { margin: 1em 0; }
+.stripeitemwrap .stripecard_before::before, .stripeitemwrap .stripecard_after::after { margin-top: 0.1em; }
+.ff_formwrap .ff_formwrapinner .formfields .formitem .formitemresult .formitemerror { background-position: 0 0.5em; }
+
+table.receiptitems { padding: 0; margin: 1em 0; width: 100%; }
+table.receiptitems tr { background-color: #F8F8F8; }
+table.receiptitems tr:nth-child(even) { background-color: #F2F2F2; }
+table.receiptitems tr.total { background-color: #FFFFFF; }
+table.receiptitems td { padding: 0.3em 0.5em; vertical-align: top; }
+table.receiptitems td:nth-child(2) { text-align: right; }
+table.receiptitems tr.total td { text-align: right; font-weight: bold; }
+
+.downloadswrap { margin: 1em 0; }
+.downloaditem img { display: inline-block; margin-right: 0.3em; }
+
+html { visibility: visible; opacity: 1; }

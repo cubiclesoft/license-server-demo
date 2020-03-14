@@ -1,0 +1,6 @@
+*.zip
+*.tar.gz
+/installers/win-innosetup/Output/
+/installers/win-wix/*.msi
+/installers/FINAL/*
+license.json

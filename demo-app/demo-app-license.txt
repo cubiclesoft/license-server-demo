@@ -1,0 +1,113 @@
+License Server Demo App End User License Agreement
+
+Please read this End User License Agreement ("EULA") before You purchase a License Key for the Software and subsequently download and use the Software.
+
+By purchasing a License Key and/or downloading and using the Software, You agree, without reservation, to be bound by the terms of this EULA. If You do not agree with the terms of this EULA, please do not purchase a License Key and/or download and use the Software.
+
+If You accept the terms and conditions in this EULA on behalf of a company or other legal entity, You warrant that You have full legal authority to accept the terms and conditions in this EULA on behalf of such company or other legal entity, and to legally bind such company or other legal entity.
+
+You may not accept this EULA if You are not of legal age to form a binding contract with CubicleSoft.
+
+1. Definitions
+
+In this EULA the expressions below shall have the meaning assigned to them in this clause, unless the context requires otherwise:
+
+    "Activate" entering a License Key into the software as provided by CubicleSoft;
+
+    "CubicleSoft" CubicleSoft, PO BOX 89208, Tucson, AZ 85752;
+
+    "Documentation" the detailed information about the Software, its features and the system requirements as made available on the website of CubicleSoft, as amended from time to time;
+
+    "License Key" a unique code provided by CubicleSoft, which enables You to Activate the Software by entering the code into the Software and to subsequently use the Software during the applicable license term;
+
+    "Standard version" and "Enterprise version" the license for the Software for the term specified on the webpage of the store where You purchase the license, or in any applicable agreement concerning the purchase of the license (as stand-alone product or as part of a subscription) to Use the Software;
+
+    "Open Source Software" any software that requires as a condition of use, copying, modification and/or distribution of such software that such software or other software incorporated into, derived from or distributed with such software (a) be disclosed or distributed in source code form, and (b) be licensed for the purpose of making and/or distributing derivative works, and (c) be redistributable at no charge;
+
+    "Product Support" support channels that CubicleSoft has set up specifically for the Software to handle installation, upgrade, and removal issues, usage issues, reporting bugs, and submitting feature requests;
+
+    "Software" any software application and/or all of the contents of the files and/or other media, including software setup files, licensed to You by CubicleSoft, including any Updates;
+
+    "Updates" any modified versions and updates of, and additions to the Software (excluding upgrades of the Software);
+
+    "Use" the access, download, install, copy or get benefit from using the Software in accordance with the documentation.
+
+    "You" you, the final and ultimate user of the Software or the authorized representative of a company or other legal entity that will be the final and ultimate user of the Software, and the company or other legal entity that will be the final and ultimate user of the Software, if applicable.
+
+General
+
+This EULA applies to any licenses granted to You by CubicleSoft for the Use of the Software.
+
+By purchasing a License Key for the Software and/or downloading and using the Software, You enter into this EULA with CubicleSoft.
+
+This EULA may be modified from time to time. CubicleSoft will notify you of such modifications on its website or otherwise, e.g. by using the email address used for the provision of the License Key. Any modifications to this EULA shall only apply upon acceptance by You.
+
+2. License
+
+CubicleSoft grants You a non-exclusive, non-transferable, limited, revocable license to Use the Software in accordance with this EULA. CubicleSoft reserves all rights not expressly granted to You.
+
+CubicleSoft is and remains the owner of any intellectual property rights with respect to the Software. You shall not acquire any ownership to the Software as result of Your purchase of the License Key or Your Use of the Software.
+
+3. Permitted use and restrictions
+
+In order to be able to install the Software and receive Updates and upgrades, Your computer shall have access to the Internet and shall meet the system requirements described in the Documentation that can be found on the webpage: https://cubiclesoft.com/compatibility-policies/.
+
+You may Use the Software on Your computers and devices only. If You violate this EULA, CubicleSoft may block or otherwise render the License Key unusable.
+
+You shall Use the Standard version or Enterprise version in accordance with applicable laws and shall not:
+
+    Use the Standard version or Enterprise version on any system You do not own;
+
+    rent, lease, lend, sell, redistribute, sublicense or otherwise commercially exploit the License Key, the Standard version, the Enterprise version, or Product Support;
+
+    assign the License Key, the Standard version, the Enterprise version, or Product Support without prior written approval of CubicleSoft;
+
+    Use the Standard version or Enterprise version for any unlawful or illegal activity, or to facilitate an unlawful or illegal activity;
+
+    delete or alter any disclaimers, warnings, copyright or other proprietary notices accompanying the Software;
+
+    or copy (except as otherwise provided in this EULA), adapt, translate, decompile, decode, reverse engineer, disassemble, attempt to derive or view the source code of, modify or create derivative works of the Software and the License Key or any parts thereof, except to the extent permitted by applicable law.
+
+CubicleSoft may modify the Software at any time at its sole discretion and without notice to You, for example to comply with applicable law or a court order, to avoid a third party infringement claim or to provide Updates and upgrades.
+
+Certain components of the Software are Open Source Software and licensed under the terms of the applicable license(s) of the Open Source Software.
+
+4. Maintenance and support
+
+CubicleSoft will attempt to notify You of any available Updates and upgrades.
+
+You will be entitled to receive Updates and Product Support free of charge during a period of three hundred sixty-five (365) days upon purchasing the License Key for the Standard version or Enterprise version. In order to continue to receive Updates and Product Support after this period, You will need to renew your License Key for the Standard version or Enterprise version.
+
+You may need to pay an additional fee in order to be able to download an upgrade.
+
+Any maintenance and Product Support provided by CubicleSoft, including the provision of Updates and upgrades, will be provided in an adequate way on an "as is" basis without any warranty, as soon as reasonably practicable, subject to availability of personnel.
+
+5. Use of data
+
+When requesting Product Support or Updates, CubicleSoft may collect and use technical and related data concerning the Software You have licensed, including about the version number of the Software You have installed and about the system You have installed the Software on. CubicleSoft will use such data to facilitate maintenance and support with respect to the Software, to improve its products, and to provide further services or technologies to You.
+
+CubicleSoft may process personal data with respect to You, if and to the extent necessary to provide the License Key, to provide maintenance and support to You with respect to the Software and to comply with its obligations under this EULA. To the extent CubicleSoft will process personal data, it will comply with its obligations under applicable data protection law. The CubicleSoft privacy policy can be found on the webpage: https://cubiclesoft.com/privacy-policy/.
+
+6. Warranty and liability
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+7. Termination
+
+This EULA will continue to be in force until the expiry or termination of the Standard version or Enterprise version.
+
+The License Key, Standard version or Enterprise version, and Product Support will terminate automatically at the end of the applicable license term, unless renewed or Activated prior to the end of the applicable license term.
+
+CubicleSoft is entitled to terminate the Standard version or Enterprise version by blocking or otherwise rendering the License Key unusable during the license term with immediate effect and without prior notice in the event You fail to comply with the terms in this EULA, in the event You fail to pay Your (subscription) fee for the License Key within the applicable payment term, or in the event CubicleSoft is required to do so by law or an order of an applicable court.
+
+Upon termination of the Standard version or Enterprise version, You shall cease all use of the Software and shall destroy all copies thereof.
+
+You acknowledge that the provisions of this EULA, which by their nature are intended to survive termination, will remain in effect after termination of this EULA.
+
+8. Governing law and disputes
+
+This EULA shall be governed by and construed in accordance with the laws of Arizona and the United States, excluding its conflicts of law rules.
+
+All claims and disputes arising under or relating to this EULA are to be settled by binding arbitration in Pima County, Arizona, United States. The arbitration shall be conducted on a confidential basis pursuant to the Commercial Arbitration Rules of the American Arbitration Association. Any decision or award as a result of any such arbitration proceeding shall be in writing and shall provide an explanation for all conclusions of law and fact and shall include the assessment of costs, expenses, and reasonable attorneys' fees. Any such arbitration shall be conducted by an arbitrator experienced in software development and its processes, copyright law, and software license agreements and shall include both a written and audio record of the arbitration hearing. The parties reserve the right to object to any individual who shall be employed by or affiliated with a competing organization or entity. An award of arbitration may be confirmed in a court of competent jurisdiction.
+
+Any other claims and disputes between CubicleSoft and You shall exclusively be submitted to the competent court in Pima County, Arizona, United States.

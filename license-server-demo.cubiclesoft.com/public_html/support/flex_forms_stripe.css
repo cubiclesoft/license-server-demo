@@ -1,0 +1,30 @@
+.stripeitemwrap .stripeiteminner { display: flex; flex-direction: column; margin-bottom: 0.2em; }
+.stripeitemwrap .stripeitemrow { display: flex; margin-top: 0.7em; }
+.stripeitemwrap .stripeitemrow:first-child { margin-top: 0; }
+.stripeitemwrap .stripeitemcol { flex-grow: 1; margin-left: 1em; }
+.stripeitemwrap .stripeitemcol:first-child { margin-left: 0; }
+
+.StripeElement { border: 1px solid #BBBBBB; padding: 0.3em; display: flex; }
+.StripeElement:hover { border: 1px solid #888888; }
+.StripeElement.StripeElement--focus { border: 1px solid #888888; }
+.StripeElement::after { width: 1px; height: 18px; display: inline-block; content: ''; }
+.StripeElement :nth-child(1) { flex-grow: 1; }
+
+.stripeitemwrap .stripecard_before::before, .stripeitemwrap .stripecard_after::after { background-image: url(stripe_card_sprite.png); background-repeat: no-repeat; width: 28px; height: 18px; display: inline-block; content: ''; }
+.stripeitemwrap .stripecard_before::before { margin-left: 0.1em; margin-right: 0.4em; }
+.stripeitemwrap .stripecard_after::after { margin-left: 0.4em; margin-right: 0.1em; }
+
+.stripeitemwrap .stripecard_before.stripecard-card_front::before { background-position: -43px -33px; }
+.stripeitemwrap .stripecard_after.stripecard-card_back::after { background-position: -5px -33px; }
+.stripeitemwrap .stripecard_before.stripecard-visa::before { background-position: -81px -61px; }
+.stripeitemwrap .stripecard_before.stripecard-mastercard::before { background-position: -81px -33px; }
+.stripeitemwrap .stripecard_before.stripecard-amex::before { background-position: -5px -5px; }
+.stripeitemwrap .stripecard_before.stripecard-amex_alt::before { background-position: -43px -5px; }
+.stripeitemwrap .stripecard_before.stripecard-discover::before { background-position: -43px -61px; }
+.stripeitemwrap .stripecard_before.stripecard-diners_club::before { background-position: -5px -61px; }
+.stripeitemwrap .stripecard_before.stripecard-jcb::before { background-position: -81px -5px; }
+.stripeitemwrap .stripecard_before.stripecard-unionpay::before { background-position: -5px -89px; }
+
+@media print {
+	.stripeitemwrap { display: none; }
+}

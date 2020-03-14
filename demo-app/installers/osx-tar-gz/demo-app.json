@@ -1,0 +1,13 @@
+{
+	"business_name": "CubicleSoft",
+	"business_url": "https://cubiclesoft.com/",
+	"app_name": "License Server Demo App",
+	"app_filename": "DemoApp",
+	"app_ver": "1.0.0",
+	"app_url": "https://license-server-demo.cubiclesoft.com/",
+	"app_copyright": "(C) 2019 CubicleSoft",
+	"support_url": "https://license-server-demo.cubiclesoft.com/product-support/",
+	"vendor": "cubiclesoft",
+	"app_category": "Developer Tools",
+	"user_dock_icon": false
+}
