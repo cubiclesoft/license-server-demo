@@ -12,7 +12,7 @@
 	<?define AppFilename = "DemoApp" ?>
 	<?define AppVer = "1.0.0" ?>
 	<?define AppURL = "https://license-server-demo.cubiclesoft.com/" ?>
-	<?define AppCopyright = "(C) 2019 CubicleSoft" ?>
+	<?define AppCopyright = "(C) 2020 CubicleSoft" ?>
 	<?define SupportURL = "https://license-server-demo.cubiclesoft.com/product-support/" ?>
 	<?define SourceSetupFile = "..\win-innosetup\Output\$(var.AppFilename)-$(var.AppVer).exe" ?>
 	<?define UpgradeGUID = "FB5D0D16-BED1-41BE-8CC7-1C905CF26B8E" ?>

@@ -1,6 +1,6 @@
 <?php
 	// License Server Demo App.
-	// (C) 2019 CubicleSoft.  All Rights Reserved.
+	// (C) 2020 CubicleSoft.  All Rights Reserved.
 
 	require_once "support/str_basics.php";
 	require_once "support/page_basics.php";
@@ -255,6 +255,8 @@ setInterval(function() {
 				{
 					$rows[] = array(htmlspecialchars($ver), htmlspecialchars(date("F j, Y", $ts)), (APP_MAJOR_VER === (int)$ver ? "<a href=\"" . BB_GetRequestURLBase() . "?action=support&sec_t=" . BB_CreateSecurityToken("support") . "\" target=\"_blank\">Download</a>" : "<a href=\"" . BB_GetRequestURLBase() . "?action=support&action2=buy&sec_t=" . BB_CreateSecurityToken("support") . "\" target=\"_blank\">Purchase upgrade</a>"));
 				}
+
+				@unlink($filename);
 			}
 		}
 

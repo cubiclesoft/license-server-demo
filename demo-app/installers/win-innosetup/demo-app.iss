@@ -8,7 +8,7 @@
 #define AppFilename "DemoApp"
 #define AppVer "1.0.0"
 #define AppURL "https://license-server-demo.cubiclesoft.com/"
-#define AppCopyright "(C) 2019 CubicleSoft"
+#define AppCopyright "(C) 2020 CubicleSoft"
 #define SupportURL "https://license-server-demo.cubiclesoft.com/product-support/"
 #define AppBase "demo-app"
 
