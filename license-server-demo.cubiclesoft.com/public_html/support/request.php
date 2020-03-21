@@ -1,6 +1,6 @@
 <?php
 	// CubicleSoft web request helper/processing functions.
-	// (C) 2018 CubicleSoft.  All Rights Reserved.
+	// (C) 2020 CubicleSoft.  All Rights Reserved.
 
 	class Request
 	{
@@ -122,7 +122,7 @@
 			if (strpos($url, ":") !== false)  return $url;
 
 			// Handle relative paths.
-			if ($url === "" || $url{0} !== "/")  return rtrim(self::GetFullURLBase($protocol), "/") . "/" . $url;
+			if ($url === "" || $url[0] !== "/")  return rtrim(self::GetFullURLBase($protocol), "/") . "/" . $url;
 
 			// Handle absolute paths.
 			$host = self::GetHost($protocol);
