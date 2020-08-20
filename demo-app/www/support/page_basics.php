@@ -393,7 +393,7 @@
 <title>@TITLE@</title>
 <link rel="stylesheet" href="@ROOTURL@/@SUPPORTPATH@/admin.css?20190329" type="text/css" media="all" />
 <link rel="stylesheet" href="@ROOTURL@/@SUPPORTPATH@/admin_print.css?20190329" type="text/css" media="print" />
-<script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/jquery-3.5.0.min.js"></script>
 <script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/admin.js?20190329"></script>
 <?php if (function_exists("BB_InjectLayoutHead"))  BB_InjectLayoutHead(); ?>
 </head>
@@ -419,7 +419,7 @@
 <title>@TITLE@</title>
 <link rel="stylesheet" href="@ROOTURL@/@SUPPORTPATH@/admin.css?20190329" type="text/css" media="all" />
 <link rel="stylesheet" href="@ROOTURL@/@SUPPORTPATH@/admin_print.css?20190329" type="text/css" media="print" />
-<script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/jquery-3.5.0.min.js"></script>
 <?php if (function_exists("BB_InjectLayoutHead"))  BB_InjectLayoutHead(); ?>
 </head>
 <body>
@@ -467,7 +467,7 @@ EOF;
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>@TITLE@</title>
 <link rel="stylesheet" href="@ROOTURL@/@SUPPORTPATH@/admin_bulkedit.css?20190329" type="text/css" media="all" />
-<script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/jquery-3.5.0.min.js"></script>
 <script type="text/javascript" src="@ROOTURL@/@SUPPORTPATH@/admin_bulkedit.js?20190329"></script>
 <?php if (function_exists("BB_InjectLayoutHead"))  BB_InjectLayoutHead(); ?>
 </head>
