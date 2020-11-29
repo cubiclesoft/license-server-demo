@@ -5,7 +5,7 @@ A functional [PHP App Server](https://github.com/cubiclesoft/php-app-server) and
 
 This is intended for demonstration purposes only.  It is highly recommended to start with a fresh install of PHP App Server and Admin Pack when using those products and copy and paste relevant License Server integration code from this software for the new product.
 
-[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/)
+[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/) [![Discord](https://img.shields.io/discord/777282089980526602?label=chat&logo=discord)](https://cubiclesoft.com/product-support/github/)
 
 Features
 --------
