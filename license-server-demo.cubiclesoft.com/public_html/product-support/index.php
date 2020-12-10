@@ -29,6 +29,71 @@
 	$errors = array();
 	$message = "";
 
+	function LoadMajorVersionMap()
+	{
+		global $lsrv, $productid, $rootpath, $companyname;
+
+		// Retrieve all licenses and user order history.
+		$result = $lsrv->GetLicenses(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, array("revoked" => false));
+		if (!$result["success"])  OutputPage("Error", "License Retrieval Failed", "<p>Unable to retrieve licenses.  Try again later.  If the problem persists, contact " . htmlspecialchars($companyname) . ".</p><p>" . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>");
+
+		$licenses = $result["licenses"];
+
+		// Prepare to map in whether or not order history exists.
+		$result = $lsrv->GetHistory(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, "created");
+		if (!$result["success"])  OutputPage("Error", "History Retrieval Failed", "<p>Unable to retrieve license history.  Try again later.  If the problem persists, contact " . htmlspecialchars($companyname) . ".</p><p>" . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>");
+
+		$entrymap = array();
+		foreach ($result["entries"] as $entry)
+		{
+			$key = json_encode(array($entry["serial_num"], $entry["product_id"], $entry["major_ver"], $entry["userinfo"]), JSON_UNESCAPED_SLASHES);
+
+			$entrymap[$key] = $entry["id"];
+		}
+
+		// Sort by major version in descending order.
+		$versions = array();
+		$ts = time();
+		foreach ($licenses as $license)
+		{
+			if (!isset($versions[$license["major_ver"]]))
+			{
+				$versions[$license["major_ver"]] = array();
+
+				$filename = $rootpath . "/../protected_html/downloads/v" . $license["major_ver"] . "/info.json";
+
+				if (file_exists($filename))
+				{
+					$versions[$license["major_ver"]]["downloads"] = @json_decode(file_get_contents($filename), true);
+					$versions[$license["major_ver"]]["lastupdated"] = filemtime($filename);
+				}
+
+				$versions[$license["major_ver"]]["can_download"] = false;
+				$versions[$license["major_ver"]]["exp_licenses"] = array();
+				$versions[$license["major_ver"]]["perm_licenses"] = array();
+			}
+
+			$key = json_encode(array($license["serial_num"], $license["product_id"], $license["major_ver"], $license["userinfo"]), JSON_UNESCAPED_SLASHES);
+
+			$license["log_id"] = (isset($entrymap[$key]) ? $entrymap[$key] : false);
+
+			if ($license["serial_info"]["expires"])
+			{
+				$versions[$license["major_ver"]]["exp_licenses"][$license["serial_info"]["date"]] = $license;
+				if ($license["serial_info"]["date"] > $ts)  $versions[$license["major_ver"]]["can_download"] = true;
+			}
+			else
+			{
+				$versions[$license["major_ver"]]["perm_licenses"][] = $license;
+				$versions[$license["major_ver"]]["can_download"] = true;
+			}
+		}
+
+		krsort($versions);
+
+		return $versions;
+	}
+
 	if (isset($_SESSION["serialinfo"]))
 	{
 		// Signed in.
@@ -92,65 +157,58 @@
 
 			OutputBasicFooter();
 		}
+		else if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "livechat" && isset($discord_webhook) && $discord_webhook !== false && $discord_bottoken !== false && $discord_channelid !== false)
+		{
+			// Load and map major versions, licenses, and order history.
+			$versions = LoadMajorVersionMap();
+
+			$hassupport = false;
+			foreach ($versions as $majorver => $vinfo)
+			{
+				if ($vinfo["can_download"] && isset($vinfo["downloads"]))
+				{
+					$hassupport = true;
+
+					break;
+				}
+			}
+
+			if (!$hassupport)  OutputPage("Error", "Access Denied", "<p>Access to the help and support system requires a valid, current license.  <a href=\"/buy/\">Renew now</a></p>");
+
+			require_once $rootpath . "/support/sdk_discord.php";
+
+			// Notify license channel of the incoming user.
+			$options = array(
+				"content" => $_SESSION["serialinfo"]["userinfo"] . " (" . $productname . " v" . $majorver . ")"
+			);
+
+			$result = DiscordSDK::SendWebhookMessage($discord_webhook, $options);
+			if (!$result["success"])  OutputPage("Error", "Discord Error", "<p>An error occurred while attempting to access Discord.  " . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")</p>"));
+
+			// Create a temporary invite.
+			$discord = new DiscordSDK();
+			$discord->SetAccessInfo("Bot", $discord_bottoken);
+
+			$options = array(
+				"max_age" => 1800,
+				"max_uses" => 1,
+				"unique" => true,
+				"temporary" => true
+			);
+
+			$result = $discord->RunAPI("POST", "channels/" . $discord_channelid . "/invites", $options);
+			if (!$result["success"])  OutputPage("Error", "Discord Error", "<p>An error occurred while attempting to setup Discord.  " . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")</p>"));
+
+			$url = "https://discord.gg/" . $result["data"]["code"];
+
+			header("Location: " . $url);
+
+			exit();
+		}
 		else
 		{
-			// Retrieve all licenses and user order history.
-			$result = $lsrv->GetLicenses(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, array("revoked" => false));
-			if (!$result["success"])  OutputPage("Error", "License Retrieval Failed", "<p>Unable to retrieve licenses.  Try again later.  If the problem persists, contact " . htmlspecialchars($companyname) . ".</p><p>" . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>");
-
-			$licenses = $result["licenses"];
-
-			// Prepare to map in whether or not order history exists.
-			$result = $lsrv->GetHistory(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, "created");
-			if (!$result["success"])  OutputPage("Error", "History Retrieval Failed", "<p>Unable to retrieve license history.  Try again later.  If the problem persists, contact " . htmlspecialchars($companyname) . ".</p><p>" . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>");
-
-			$entrymap = array();
-			foreach ($result["entries"] as $entry)
-			{
-				$key = json_encode(array($entry["serial_num"], $entry["product_id"], $entry["major_ver"], $entry["userinfo"]), JSON_UNESCAPED_SLASHES);
-
-				$entrymap[$key] = $entry["id"];
-			}
-
-			// Sort by major version in descending order.
-			$versions = array();
-			$ts = time();
-			foreach ($licenses as $license)
-			{
-				if (!isset($versions[$license["major_ver"]]))
-				{
-					$versions[$license["major_ver"]] = array();
-
-					$filename = $rootpath . "/../protected_html/downloads/v" . $license["major_ver"] . "/info.json";
-
-					if (file_exists($filename))
-					{
-						$versions[$license["major_ver"]]["downloads"] = @json_decode(file_get_contents($filename), true);
-						$versions[$license["major_ver"]]["lastupdated"] = filemtime($filename);
-					}
-
-					$versions[$license["major_ver"]]["can_download"] = false;
-					$versions[$license["major_ver"]]["exp_licenses"] = array();
-					$versions[$license["major_ver"]]["perm_licenses"] = array();
-				}
-
-				$key = json_encode(array($license["serial_num"], $license["product_id"], $license["major_ver"], $license["userinfo"]), JSON_UNESCAPED_SLASHES);
-
-				$license["log_id"] = (isset($entrymap[$key]) ? $entrymap[$key] : false);
-
-				if ($license["serial_info"]["expires"])
-				{
-					$versions[$license["major_ver"]]["exp_licenses"][$license["serial_info"]["date"]] = $license;
-					if ($license["serial_info"]["date"] > $ts)  $versions[$license["major_ver"]]["can_download"] = true;
-				}
-				else
-				{
-					$versions[$license["major_ver"]]["perm_licenses"][] = $license;
-					$versions[$license["major_ver"]]["can_download"] = true;
-				}
-			}
-
-			krsort($versions);
+			// Load and map major versions, licenses, and order history.
+			$versions = LoadMajorVersionMap();
 
 			OutputBasicHeader("Product Support Center", "Product Support Center");
 
@@ -237,8 +295,19 @@
 
 			if ($hassupport)
 			{
+				if (isset($discord_webhook) && $discord_webhook !== false && $discord_bottoken !== false && $discord_channelid !== false)
+				{
 ?>
-<p>The official helpdesk system is "coming soon."  In the meantime, if you have questions, difficulties, or feature requests, please email them to <a href="mailto:<?=htmlspecialchars($realemail)?>"><?=htmlspecialchars($displayemail)?></a>.</p>
+<p><a href="/product-support/?action=livechat" target="_blank">Live Chat</a> with <?=htmlspecialchars($companyname)?> (via Discord) to ask questions, report an issue, or request a new feature.  Alternatively, send an email to <a href="mailto:<?=htmlspecialchars($realemail)?>"><?=htmlspecialchars($displayemail)?></a>.</p>
+<?php
+				}
+				else
+				{
+?>
+<p>If you have questions, want to report an issue, or request a new feature, send an email to <a href="mailto:<?=htmlspecialchars($realemail)?>"><?=htmlspecialchars($displayemail)?></a>.</p>
+<?php
+				}
+?>
 
 <p>Are you a developer and love APIs?  Check out the <a href="https://cubiclesoft.com/product-support-api/" target="_blank">Product Support Center API</a>.</p>
 <?php

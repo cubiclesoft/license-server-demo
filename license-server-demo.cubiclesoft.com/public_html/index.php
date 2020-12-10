@@ -20,7 +20,7 @@
 
 <h2>Boilerplate Code.  Cool.</h2>
 
-<p>Like what you see here?  All the heavy lifting has been done for you!  A complete Stripe + PHP License Server integration + product support center + demo app ready to adapt and deploy.  Get back to building your software in minutes.</p>
+<p>Like what you see here?  All the heavy lifting has been done for you!  A complete Stripe + PHP License Server integration + product support center (with optional live chat via Discord) + demo app ready to adapt and deploy.  Get back to building your software in minutes.</p>
 
 <p>Just click the "Get Boilerplate" button above to get started.</p>
 

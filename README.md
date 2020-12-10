@@ -37,6 +37,12 @@ In the same directory as `base.php`, create a file called `secrets.php` and fill
 
 	// Generate a secret key:  https://www.random.org/integers/?num=20&min=0&max=255&col=10&base=16&format=plain&rnd=new
 	$buy_form_secretkey = "...";
+
+	// Discord integration for the live chat option in the product support center.
+	// Get a webhook URL and Discord Bot token by following the directions here:  https://github.com/cubiclesoft/php-discord-sdk
+	$discord_webhook = false;
+	$discord_bottoken = "...";
+	$discord_channelid = "...";
 ```
 
 Adjust the web server configuration to have unknown paths in the `/product-support/` path map to `/product-support/api.php` and let the server handle delivering content from `protected_html`.  Here are the expanded rules for [Nginx](https://nginx.org/) that `license-server-demo.cubiclesoft.com` uses:
