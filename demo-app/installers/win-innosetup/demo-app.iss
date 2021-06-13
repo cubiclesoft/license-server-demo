@@ -1,14 +1,15 @@
 ; Basic Inno Setup script.
-; (C) 2019 CubicleSoft.  All Rights Reserved.
+; (C) 2021 CubicleSoft.  All Rights Reserved.
 
 ; Adjust these defines for your app.
 #define BusinessName "CubicleSoft"
 #define BusinessURL "https://cubiclesoft.com/"
 #define AppName "License Server Demo App"
+#define AppMutex "CubicleSoft_Demo App"
 #define AppFilename "DemoApp"
 #define AppVer "1.0.0"
 #define AppURL "https://license-server-demo.cubiclesoft.com/"
-#define AppCopyright "(C) 2020 CubicleSoft"
+#define AppCopyright "(C) 2021 CubicleSoft"
 #define SupportURL "https://license-server-demo.cubiclesoft.com/product-support/"
 #define AppBase "demo-app"
 
@@ -44,6 +45,7 @@ AppPublisherURL={#BusinessURL}
 AppUpdatesURL={#AppURL}
 AppSupportURL={#SupportURL}
 AppCopyright={#AppCopyright}
+AppMutex={#AppMutex}
 SourceDir=..\..
 #ifdef PHP_64
 ArchitecturesInstallIn64BitMode=x64
@@ -107,7 +109,7 @@ end;
 function InitializeSetup() : Boolean;
 var
   MsgResult : Integer;
-  ErrCode: integer;
+  ErrCode: Integer;
 begin
   // Check for the correct VC++ Redistributables.
   if ((NOT Is64BitInstallMode) AND (NOT FileExists(ExpandConstant('{syswow64}') + '\{#VCDetect}'))) then begin
@@ -167,10 +169,10 @@ Source: "support\*"; Excludes: "mac\,nix\"; DestDir: "{app}\support"; Flags: cre
 Source: "extensions\*"; Excludes: "README.md"; DestDir: "{app}\extensions"; Flags: createallsubdirs recursesubdirs skipifsourcedoesntexist
 Source: "www\*"; Excludes: "README.md"; DestDir: "{app}\www"; Flags: createallsubdirs recursesubdirs
 #ifdef PHP_32
-Source: "installers\win-innosetup\php-win-32\*"; Excludes: "README.md"; DestDir: "{app}\php-32"; Check: (not Is64BitInstallMode) or IsTaskSelected('portablemode'); Flags: createallsubdirs recursesubdirs
+Source: "installers\win-innosetup\php-win-32\*"; Excludes: "README.md,*.bak"; DestDir: "{app}\php-32"; Check: (not Is64BitInstallMode) or IsTaskSelected('portablemode'); Flags: createallsubdirs recursesubdirs
 #endif
 #ifdef PHP_64
-Source: "installers\win-innosetup\php-win-64\*"; Excludes: "README.md"; DestDir: "{app}\php-64"; Check: Is64BitInstallMode or IsTaskSelected('portablemode'); Flags: createallsubdirs recursesubdirs
+Source: "installers\win-innosetup\php-win-64\*"; Excludes: "README.md,*.bak"; DestDir: "{app}\php-64"; Check: Is64BitInstallMode or IsTaskSelected('portablemode'); Flags: createallsubdirs recursesubdirs
 #endif
 #ifdef PortableAppMode
 Source: "installers\win-innosetup\start.bat"; DestDir: "{app}"; Check: IsTaskSelected('portablemode')
