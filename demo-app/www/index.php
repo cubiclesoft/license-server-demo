@@ -123,6 +123,30 @@
 <style type="text/css">
 #menuwrap .menu .title { border-bottom: 2px solid #4C86BF; }
 </style>
+
+<script type="text/javascript">
+(function() {
+	function InitExitApp()
+	{
+		var ws = new WebSocket((window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/exit-app/');
+
+		ws.addEventListener('open', function(e) {
+			var msg = {
+				authtoken: '<?=hash_hmac("sha256", "/exit-app/", $_SERVER["PAS_SECRET"])?>',
+				delay: 3
+			};
+
+			ws.send(JSON.stringify(msg));
+		});
+
+		ws.addEventListener('close', function(e) {
+			setTimeout(InitExitApp, 500);
+		});
+	}
+
+	InitExitApp();
+})();
+</script>
 <?php
 
 		// Keep PHP sessions alive.
