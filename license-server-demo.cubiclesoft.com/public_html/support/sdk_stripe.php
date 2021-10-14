@@ -1,6 +1,6 @@
 <?php
 	// Minimalist Stripe SDK.
-	// (C) 2019 CubicleSoft.  All Rights Reserved.
+	// (C) 2021 CubicleSoft.  All Rights Reserved.
 
 	// Load dependencies.
 	if (!class_exists("WebBrowser", false))  require_once str_replace("\\", "/", dirname(__FILE__)) . "/web_browser.php";
@@ -28,6 +28,82 @@
 			$this->web = new WebBrowser();
 			$this->fp = false;
 			$this->apikey = $apikey;
+		}
+
+		public static function ValidateWebhookRequest($data, $secret)
+		{
+			if (!isset($_SERVER["HTTP_STRIPE_SIGNATURE"]))
+			{
+				http_response_code(403);
+
+				echo "Missing signature.";
+
+				exit();
+			}
+
+			$opts = explode(",", $_SERVER["HTTP_STRIPE_SIGNATURE"]);
+			$opts2 = array();
+			foreach ($opts as $opt)
+			{
+				$opt = trim($opt);
+				$pos = strpos($opt, "=");
+				if ($pos !== false)
+				{
+					$key = trim(substr($opt, 0, $pos));
+
+					$opts2[$key][] = trim(substr($opt, $pos + 1));
+				}
+			}
+
+			// Allow a 5 minute clock drift.
+			if (!isset($opts2["t"]) || (int)$opts2["t"][0] < time() - 5 * 60 || (int)$opts2["t"][0] > time() + 5 * 60)
+			{
+				http_response_code(403);
+
+				echo "Signature timestamp is invalid or missing.";
+
+				exit();
+			}
+
+			if (!isset($opts2["v1"]))
+			{
+				http_response_code(403);
+
+				echo "Version 1 signature is missing.";
+
+				exit();
+			}
+
+			$payload = $opts2["t"][0] . "." . $data;
+
+			$sig = strtolower(hash_hmac("sha256", $payload, $secret));
+
+			foreach ($opts2["v1"] as $sig2)
+			{
+				if (self::CTstrcmp($sig, strtolower($sig2)) == 0)  return;
+			}
+
+			http_response_code(403);
+
+			echo "Signature is invalid.";
+
+			exit();
+		}
+
+		// Constant-time string comparison.  Ported from CubicleSoft C++ code.
+		public static function CTstrcmp($secret, $userinput)
+		{
+			$sx = 0;
+			$sy = strlen($secret);
+			$uy = strlen($userinput);
+			$result = $sy - $uy;
+			for ($ux = 0; $ux < $uy; $ux++)
+			{
+				$result |= ord($userinput[$ux]) ^ ord($secret[$sx]);
+				$sx = ($sx + 1) % $sy;
+			}
+
+			return $result;
 		}
 
 		public static function MakeIdempotencyKey()
