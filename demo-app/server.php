@@ -225,6 +225,7 @@
 			{
 				foreach ($client->appdata["cgi"]["pipes"] as $fp)  fclose($fp);
 
+				proc_terminate($client->appdata["cgi"]["proc"]);
 				proc_close($client->appdata["cgi"]["proc"]);
 
 				if (trim($client->appdata["cgi"]["stderr"]) !== "")
@@ -558,6 +559,9 @@
 	// Write out the initial response line.
 	WriteStartupInfo($initresult);
 	echo "Server URL:  " . $initresult["url"] . "\n";
+	echo "PAS_PROG_FILES:  " . $pfilespath . "\n";
+	echo "PAS_USER_FILES:  " . $ufilespath . "\n";
+	echo "DOCUMENT_ROOT:  " . $docroot . "\n";
 	echo "Ready.\n";
 
 	$cgis = array();
