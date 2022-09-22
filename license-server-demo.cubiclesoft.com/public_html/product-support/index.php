@@ -1,5 +1,6 @@
 <?php
 	require_once "../base.php";
+	if (file_exists($rootpath . "/secrets.php"))  require_once $rootpath . "/secrets.php";
 	require_once $rootpath . "/layout.php";
 	require_once $rootpath . "/support/request.php";
 	require_once $rootpath . "/support/flex_forms.php";
@@ -255,6 +256,7 @@
 				krsort($vinfo["exp_licenses"]);
 
 				$num = 0;
+				$ts = time();
 				foreach ($keys as $key)
 				{
 					foreach ($vinfo[$key] as $license)
