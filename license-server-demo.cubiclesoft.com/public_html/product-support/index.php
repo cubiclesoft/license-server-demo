@@ -232,11 +232,18 @@
 					echo "<div class=\"downloadswrap\">\n";
 					foreach ($vinfo["downloads"]["files"] as $filename => $finfo)
 					{
-						if ($finfo["32bit"] && $finfo["32bit"])  $bitsextra = "";
+						if ($finfo["32bit"] && $finfo["64bit"])  $bitsextra = "";
 						else if ($finfo["32bit"])  $bitsextra = ", 32-bit";
 						else  $bitsextra = ", 64-bit";
 
-						echo "<div class=\"downloaditem\"><img src=\"/res/" . htmlspecialchars($finfo["os"]) . "_18x18.png\" class=\"os_icon\" title=\"" . htmlspecialchars($finfo["os_disp"]) . "\"> <a href=\"" . htmlspecialchars($finfo["url"]) . "\">" . htmlspecialchars($filename) . "</a> <span style=\"white-space: nowrap;\">(" . number_format($finfo["size"], 0) . " bytes" . $bitsextra . ")</span></div>\n";
+						$specialinst = ($finfo["os"] === "osx");
+
+						echo "<div class=\"downloaditem\"><img src=\"/res/" . htmlspecialchars($finfo["os"]) . "_18x18.png\" class=\"os_icon\" title=\"" . htmlspecialchars($finfo["os_disp"]) . "\"> <a href=\"" . htmlspecialchars($finfo["url"]) . "\"" . ($specialinst ? " onclick=\"return ShowSpecialInstructions('" . htmlspecialchars($finfo["os"]) . "');\"" : "") . ">" . htmlspecialchars($filename) . "</a> <span style=\"white-space: nowrap;\">(" . number_format($finfo["size"], 0) . " bytes" . $bitsextra . ")</span></div>\n";
+
+						if ($specialinst && $finfo["os"] === "osx")
+						{
+							echo "<div id=\"downloaditem_instructions_" . htmlspecialchars($finfo["os"]) . "\" class=\"downloaditem_instructions\">To download for Mac OSX, start Terminal and run:<br><pre>curl -L -o ~/Desktop/" . $filename . " -X POST -d \"serial=" . urlencode($_SESSION["serialinfo"]["serial"]) . "&userinfo=" . urlencode($_SESSION["serialinfo"]["userinfo"]) . "&password=" . urlencode($_SESSION["serialinfo"]["password"]) . "\" " . htmlspecialchars($finfo["url"]) . "</pre></div>\n";
+						}
 					}
 					echo "</div>\n";
 
@@ -406,7 +413,8 @@
 				{
 					$_SESSION["serialinfo"] = array(
 						"serial" => $_REQUEST["serial"],
-						"userinfo" => $_REQUEST["userinfo"]
+						"userinfo" => $_REQUEST["userinfo"],
+						"password" => $_REQUEST["password"]
 					);
 
 					if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "buy")  header("Location: " . Request::GetHost() . "/buy/");

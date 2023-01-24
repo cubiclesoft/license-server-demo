@@ -88,7 +88,8 @@
 
 		$_SESSION["serialinfo"] = array(
 			"serial" => $_REQUEST["serial"],
-			"userinfo" => $_REQUEST["userinfo"]
+			"userinfo" => $_REQUEST["userinfo"],
+			"password" => $_REQUEST["password"]
 		);
 
 		$result = array(
@@ -97,14 +98,32 @@
 
 		DisplayResult($result);
 	}
-	else if (!isset($_SESSION["serialinfo"]))
-	{
-		DisplayError("Not logged in.  Use the 'login' API to login to gain access to restricted resources.", "not_logged_in");
-	}
 	else
 	{
 		$result = $lsrv->Connect();
 		if (!$result["success"])  DisplayError($result["error"], $result["errorcode"]);
+
+		if (!isset($_SESSION["serialinfo"]))
+		{
+			if (!isset($_REQUEST["userinfo"]) || !isset($_REQUEST["serial"]) || !isset($_REQUEST["password"]))  DisplayError("Not logged in.  Use the 'login' API to login to gain access to restricted resources.", "not_logged_in");
+
+			$_REQUEST["userinfo"] = (string)$_REQUEST["userinfo"];
+			$_REQUEST["serial"] = (string)$_REQUEST["serial"];
+			$_REQUEST["password"] = (string)$_REQUEST["password"];
+
+			if ($_REQUEST["userinfo"] == "" || $_REQUEST["serial"] == "" || $_REQUEST["password"] == "")  DisplayError("Not logged in.  Use the 'login' API to login to gain access to restricted resources.", "not_logged_in");
+
+			$result = $lsrv->GetLicenses($_REQUEST["serial"], $_REQUEST["userinfo"], $productid, -1, array("revoked" => false, "password" => $_REQUEST["password"]));
+			if (!$result["success"])  DisplayError($result["error"], $result["errorcode"]);
+
+			if (!count($result["licenses"]))  DisplayError("Invalid license or support password specified.", "login_error");
+
+			$_SESSION["serialinfo"] = array(
+				"serial" => $_REQUEST["serial"],
+				"userinfo" => $_REQUEST["userinfo"],
+				"password" => $_REQUEST["password"]
+			);
+		}
 
 		$result = $lsrv->GetLicenses(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, array("revoked" => false));
 		if (!$result["success"])  DisplayError($result["error"], $result["errorcode"]);

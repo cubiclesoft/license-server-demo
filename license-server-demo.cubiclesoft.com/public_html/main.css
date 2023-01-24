@@ -37,6 +37,7 @@ div-embed { display: block; }
 .contentwrapinner { padding: 0 1em 1em 1em; }
 
 .contentwrapinner h1, h2, h3, h4, h5, h6 { margin-bottom: 0.5em; }
+.contentwrapinner pre { overflow-x: auto; }
 
 .contentwrap.fancycontent :first-child { margin-top: 0.5em; }
 .contentwrap.fancycontent h2 { text-align: center; font-size: 2.1em; font-weight: bold; }
@@ -107,5 +108,6 @@ table.receiptitems tr.total td { text-align: right; font-weight: bold; }
 
 .downloadswrap { margin: 1em 0; }
 .downloaditem img { display: inline-block; margin-right: 0.3em; }
+.downloaditem_instructions { display: none; }
 
 html { visibility: visible; opacity: 1; }
