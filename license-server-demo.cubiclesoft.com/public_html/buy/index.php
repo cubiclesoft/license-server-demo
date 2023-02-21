@@ -211,7 +211,7 @@
 				"currency" => "usd",
 				"payment_method" => $fields["card_details"],
 				"confirmation_method" => "manual",
-				"statement_descriptor" => "FILE TRAK"
+				"statement_descriptor" => "LSRV DEMO"
 			);
 
 			$result = $stripe->RunAPI("POST", "/payment_intents", $postvars);
