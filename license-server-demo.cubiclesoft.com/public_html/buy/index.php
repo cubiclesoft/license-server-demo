@@ -134,7 +134,7 @@
 	}
 	else if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "frombank")
 	{
-		if (!isset($_SESSION["stripe_info"]) || !isset($_SESSION["stripe_payment_intent"]))  $errors["card_details"] = "Unfortunately, your browser session expired before the payment cycle completed.  No charges have been made but all information will have to be re-entered.";
+		if (!isset($_SESSION["stripe_info"]) || $_SESSION["stripe_info"]["productid"] !== $productid || !isset($_SESSION["stripe_payment_intent"]))  $errors["card_details"] = "Unfortunately, your browser session expired before the payment cycle completed.  No charges have been made but all information will have to be re-entered.";
 		else
 		{
 			// Restore the request.
@@ -254,6 +254,7 @@
 					{
 						// Save the current request for later.
 						$_SESSION["stripe_info"] = array(
+							"productid" => $productid,
 							"request" => $_REQUEST,
 							"fields" => $fields
 						);
