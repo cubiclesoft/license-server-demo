@@ -95,7 +95,7 @@
 		return $versions;
 	}
 
-	if (isset($_SESSION["serialinfo"]))
+	if (isset($_SESSION["serialinfo"]) && $_SESSION["serialinfo"]["productid"] === $productid)
 	{
 		// Signed in.
 		if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "viewreceipt" && isset($_REQUEST["ordernum"]))
@@ -412,6 +412,7 @@
 				else
 				{
 					$_SESSION["serialinfo"] = array(
+						"productid" => $productid,
 						"serial" => $_REQUEST["serial"],
 						"userinfo" => $_REQUEST["userinfo"],
 						"password" => $_REQUEST["password"]

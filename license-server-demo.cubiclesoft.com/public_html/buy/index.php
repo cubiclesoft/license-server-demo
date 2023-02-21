@@ -35,7 +35,7 @@
 	$message = "";
 
 	// Cost and quantity.  Default is USD.
-	if (isset($_SESSION["serialinfo"]))  $cost = 10.00;
+	if (isset($_SESSION["serialinfo"]) && $_SESSION["serialinfo"]["productid"] === $productid)  $cost = 10.00;
 	else  $cost = 30.00;
 
 	$quantity = 1;
