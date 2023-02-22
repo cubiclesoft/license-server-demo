@@ -14,6 +14,10 @@
 
 	session_start();
 
+	$sesskey = "lsrv_" . $productid;
+
+	if (!isset($_SESSION[$sesskey]))  $_SESSION[$sesskey] = array();
+
 	// Connect to the license server and retrieve version information.
 	$lsrv = new LicenseServer();
 
@@ -35,7 +39,7 @@
 	$message = "";
 
 	// Cost and quantity.  Default is USD.
-	if (isset($_SESSION["serialinfo"]) && $_SESSION["serialinfo"]["productid"] === $productid)  $cost = 10.00;
+	if (isset($_SESSION[$sesskey]["serialinfo"]))  $cost = 10.00;
 	else  $cost = 30.00;
 
 	$quantity = 1;
@@ -75,14 +79,14 @@
 <p><?=htmlspecialchars($productname)?> downloads and product support can be obtained through the <a href="/product-support/">product support center</a>.</p>
 <?php
 
-		if (isset($_SESSION["print_receipt"]))
+		if (isset($_SESSION[$sesskey]["print_receipt"]))
 		{
 ?>
-<h2>Receipt for Order #<?=htmlspecialchars($_SESSION["print_receipt"])?></h2>
+<h2>Receipt for Order #<?=htmlspecialchars($_SESSION[$sesskey]["print_receipt"])?></h2>
 <?php
 
 			// Load the license from the order number.
-			$orderinfo = $lsrv->ExtractOrderNumberInfo($_SESSION["print_receipt"]);
+			$orderinfo = $lsrv->ExtractOrderNumberInfo($_SESSION[$sesskey]["print_receipt"]);
 			if ($orderinfo === false)  echo "<p>Invalid order number.</p>";
 			else
 			{
@@ -134,19 +138,19 @@
 	}
 	else if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "frombank")
 	{
-		if (!isset($_SESSION["stripe_info"]) || $_SESSION["stripe_info"]["product_id"] !== $productid)  $errors["card_details"] = "Unfortunately, your browser session expired before the payment cycle completed.  No charges have been made but all information will have to be re-entered.";
+		if (!isset($_SESSION[$sesskey]["stripe_info"]))  $errors["card_details"] = "Unfortunately, your browser session expired before the payment cycle completed.  No charges have been made but all information will have to be re-entered.";
 		else
 		{
 			// Restore the request.
-			$_REQUEST = $_SESSION["stripe_info"]["request"];
+			$_REQUEST = $_SESSION[$sesskey]["stripe_info"]["request"];
 
-			$fields = $_SESSION["stripe_info"]["fields"];
+			$fields = $_SESSION[$sesskey]["stripe_info"]["fields"];
 
 			// Load the PaymentIntent.
 			$stripe = new StripeSDK();
 			$stripe->SetAccessInfo($stripe_secretkey);
 
-			$result = $stripe->RunAPI("GET", "/payment_intents/" . $_SESSION["stripe_info"]["payment_intent"]);
+			$result = $stripe->RunAPI("GET", "/payment_intents/" . $_SESSION[$sesskey]["stripe_info"]["payment_intent"]);
 			if (!$result["success"])  $errors["card_details"] = $result["error"] . " (" . $result["errorcode"] . ")";
 			else
 			{
@@ -173,7 +177,7 @@
 
 		if (!isset($_REQUEST["expected_cost"]) || $_REQUEST["expected_cost"] != $cost)  $errors["cost"] = "The cost unexpectedly changed.  This most frequently happens when signed in and taking too long on the renewal screen.";
 
-		if (isset($_SESSION["serialinfo"]))  $_REQUEST[$ff->GetHashedFieldName("email")] = $fields["email"] = $_SESSION["serialinfo"]["userinfo"];
+		if (isset($_SESSION[$sesskey]["serialinfo"]))  $_REQUEST[$ff->GetHashedFieldName("email")] = $fields["email"] = $_SESSION[$sesskey]["serialinfo"]["userinfo"];
 
 		if ($fields["email"] == "")  $errors["email"] = "Please fill in this field.";
 		else
@@ -190,7 +194,7 @@
 		if ($fields["billing_zip"] == "")  $errors["billing_zip"] = "Please fill in this billing zip.";
 
 		// Verify that no licenses are already registered to the user.
-		if (!count($errors) && !isset($_SESSION["serialinfo"]))
+		if (!count($errors) && !isset($_SESSION[$sesskey]["serialinfo"]))
 		{
 			$result = $lsrv->GetLicenses(false, $fields["email"], $productid, -1, array("revoked" => false));
 			if (!$result["success"])  $errors["email"] = $result["error"] . " (" . $result["errorcode"] . ")";
@@ -253,8 +257,7 @@
 					else
 					{
 						// Save the current request for later.
-						$_SESSION["stripe_info"] = array(
-							"product_id" => $productid,
+						$_SESSION[$sesskey]["stripe_info"] = array(
 							"request" => $_REQUEST,
 							"fields" => $fields,
 							"payment_intent" => $paymentintent["id"]
@@ -434,7 +437,7 @@
 		}
 	}
 
-	if (isset($_SESSION["serialinfo"]))
+	if (isset($_SESSION[$sesskey]["serialinfo"]))
 	{
 		OutputBasicHeader("Renew Now", "Renew Now");
 
@@ -466,11 +469,11 @@
 			"expected_cost" => $cost,
 		),
 		"fields" => array(
-			(isset($_SESSION["serialinfo"]) ? array(
+			(isset($_SESSION[$sesskey]["serialinfo"]) ? array(
 				"title" => "Email Address",
 				"type" => "static",
 				"name" => "email",
-				"value" => $_SESSION["serialinfo"]["userinfo"]
+				"value" => $_SESSION[$sesskey]["serialinfo"]["userinfo"]
 			) : array(
 				"title" => "Email Address",
 				"type" => "text",

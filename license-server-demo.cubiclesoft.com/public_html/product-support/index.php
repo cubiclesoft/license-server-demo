@@ -10,6 +10,10 @@
 
 	session_start();
 
+	$sesskey = "lsrv_" . $productid;
+
+	if (!isset($_SESSION[$sesskey]))  $_SESSION[$sesskey] = array();
+
 	// Connect to the license server and retrieve version information.
 	$lsrv = new LicenseServer();
 
@@ -25,7 +29,7 @@
 	$ff->SetState(array("supporturl" => "/support"));
 
 	// Reset session serial info if defined.
-	if (isset($_REQUEST["serial"]) || isset($_REQUEST["userinfo"]) || isset($_REQUEST["password"]))  unset($_SESSION["serialinfo"]);
+	if (isset($_REQUEST["serial"]) || isset($_REQUEST["userinfo"]) || isset($_REQUEST["password"]))  unset($_SESSION[$sesskey]["serialinfo"]);
 
 	$errors = array();
 	$message = "";
@@ -35,13 +39,13 @@
 		global $lsrv, $productid, $rootpath, $companyname;
 
 		// Retrieve all licenses and user order history.
-		$result = $lsrv->GetLicenses(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, array("revoked" => false));
+		$result = $lsrv->GetLicenses(false, $_SESSION[$sesskey]["serialinfo"]["userinfo"], $productid, -1, array("revoked" => false));
 		if (!$result["success"])  OutputPage("Error", "License Retrieval Failed", "<p>Unable to retrieve licenses.  Try again later.  If the problem persists, contact " . htmlspecialchars($companyname) . ".</p><p>" . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>");
 
 		$licenses = $result["licenses"];
 
 		// Prepare to map in whether or not order history exists.
-		$result = $lsrv->GetHistory(false, $_SESSION["serialinfo"]["userinfo"], $productid, -1, "created");
+		$result = $lsrv->GetHistory(false, $_SESSION[$sesskey]["serialinfo"]["userinfo"], $productid, -1, "created");
 		if (!$result["success"])  OutputPage("Error", "History Retrieval Failed", "<p>Unable to retrieve license history.  Try again later.  If the problem persists, contact " . htmlspecialchars($companyname) . ".</p><p>" . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>");
 
 		$entrymap = array();
@@ -95,7 +99,7 @@
 		return $versions;
 	}
 
-	if (isset($_SESSION["serialinfo"]) && $_SESSION["serialinfo"]["productid"] === $productid)
+	if (isset($_SESSION[$sesskey]["serialinfo"]))
 	{
 		// Signed in.
 		if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "viewreceipt" && isset($_REQUEST["ordernum"]))
@@ -103,7 +107,7 @@
 			OutputBasicHeader("Product Support Center", "Product Support Center");
 
 ?>
-<p>Signed in as <b><?=htmlspecialchars($_SESSION["serialinfo"]["userinfo"])?></b> | <a href="/product-support/?serial=&ts=<?=time()?>">Logout</a></p>
+<p>Signed in as <b><?=htmlspecialchars($_SESSION[$sesskey]["serialinfo"]["userinfo"])?></b> | <a href="/product-support/?serial=&ts=<?=time()?>">Logout</a></p>
 
 <h2>Receipt for Order #<?=htmlspecialchars($_REQUEST["ordernum"])?></h2>
 <?php
@@ -113,7 +117,7 @@
 			if ($orderinfo === false)  echo "<p>Invalid order number.</p>";
 			else
 			{
-				$result = $lsrv->GetLicenses(false, $_SESSION["serialinfo"]["userinfo"], -1, -1, array("revoked" => false, "created" => $orderinfo["created"], "order_num" => $orderinfo["order_num"]));
+				$result = $lsrv->GetLicenses(false, $_SESSION[$sesskey]["serialinfo"]["userinfo"], -1, -1, array("revoked" => false, "created" => $orderinfo["created"], "order_num" => $orderinfo["order_num"]));
 				if (!$result["success"])  echo "<p>An error occurred while loading the order information.  " . htmlspecialchars($result["error"] . " (" . $result["errorcode"] . ")") . "</p>";
 				else if (count($result["licenses"]) != 1)  echo "<p>Order information not found.</p>";
 				else
@@ -180,7 +184,7 @@
 
 			// Notify license channel of the incoming user.
 			$options = array(
-				"content" => $_SESSION["serialinfo"]["userinfo"] . " (" . $productname . " v" . $majorver . ")"
+				"content" => $_SESSION[$sesskey]["serialinfo"]["userinfo"] . " (" . $productname . " v" . $majorver . ")"
 			);
 
 			$result = DiscordSDK::SendWebhookMessage($discord_webhook, $options);
@@ -214,7 +218,7 @@
 			OutputBasicHeader("Product Support Center", "Product Support Center");
 
 ?>
-<p>Signed in as <b><?=htmlspecialchars($_SESSION["serialinfo"]["userinfo"])?></b> | <a href="/product-support/?serial=&ts=<?=time()?>">Logout</a></p>
+<p>Signed in as <b><?=htmlspecialchars($_SESSION[$sesskey]["serialinfo"]["userinfo"])?></b> | <a href="/product-support/?serial=&ts=<?=time()?>">Logout</a></p>
 
 <p>Download product updates, open a helpdesk ticket, and view your licenses and purchase history.</p>
 
@@ -242,7 +246,7 @@
 
 						if ($specialinst && $finfo["os"] === "osx")
 						{
-							echo "<div id=\"downloaditem_instructions_" . htmlspecialchars($finfo["os"]) . "\" class=\"downloaditem_instructions\">To download for Mac OSX, start Terminal and run:<br><pre>curl -L -o ~/Desktop/" . $filename . " -X POST -d \"serial=" . urlencode($_SESSION["serialinfo"]["serial"]) . "&userinfo=" . urlencode($_SESSION["serialinfo"]["userinfo"]) . "&password=" . urlencode($_SESSION["serialinfo"]["password"]) . "\" " . htmlspecialchars($finfo["url"]) . "</pre></div>\n";
+							echo "<div id=\"downloaditem_instructions_" . htmlspecialchars($finfo["os"]) . "\" class=\"downloaditem_instructions\">To download for Mac OSX, start Terminal and run:<br><pre>curl -L -o ~/Desktop/" . $filename . " -X POST -d \"serial=" . urlencode($_SESSION[$sesskey]["serialinfo"]["serial"]) . "&userinfo=" . urlencode($_SESSION[$sesskey]["serialinfo"]["userinfo"]) . "&password=" . urlencode($_SESSION[$sesskey]["serialinfo"]["password"]) . "\" " . htmlspecialchars($finfo["url"]) . "</pre></div>\n";
 						}
 					}
 					echo "</div>\n";
@@ -411,8 +415,7 @@
 				else if (!count($result["licenses"]))  $errors["serial"] = "Invalid license or support password specified.  Try again.";
 				else
 				{
-					$_SESSION["serialinfo"] = array(
-						"productid" => $productid,
+					$_SESSION[$sesskey]["serialinfo"] = array(
 						"serial" => $_REQUEST["serial"],
 						"userinfo" => $_REQUEST["userinfo"],
 						"password" => $_REQUEST["password"]
