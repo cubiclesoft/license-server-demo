@@ -134,7 +134,7 @@
 	}
 	else if (isset($_REQUEST["action"]) && $_REQUEST["action"] == "frombank")
 	{
-		if (!isset($_SESSION["stripe_info"]) || $_SESSION["stripe_info"]["productid"] !== $productid || !isset($_SESSION["stripe_payment_intent"]))  $errors["card_details"] = "Unfortunately, your browser session expired before the payment cycle completed.  No charges have been made but all information will have to be re-entered.";
+		if (!isset($_SESSION["stripe_info"]) || $_SESSION["stripe_info"]["product_id"] !== $productid)  $errors["card_details"] = "Unfortunately, your browser session expired before the payment cycle completed.  No charges have been made but all information will have to be re-entered.";
 		else
 		{
 			// Restore the request.
@@ -146,7 +146,7 @@
 			$stripe = new StripeSDK();
 			$stripe->SetAccessInfo($stripe_secretkey);
 
-			$result = $stripe->RunAPI("GET", "/payment_intents/" . $_SESSION["stripe_payment_intent"]);
+			$result = $stripe->RunAPI("GET", "/payment_intents/" . $_SESSION["stripe_info"]["payment_intent"]);
 			if (!$result["success"])  $errors["card_details"] = $result["error"] . " (" . $result["errorcode"] . ")";
 			else
 			{
@@ -254,12 +254,11 @@
 					{
 						// Save the current request for later.
 						$_SESSION["stripe_info"] = array(
-							"productid" => $productid,
+							"product_id" => $productid,
 							"request" => $_REQUEST,
-							"fields" => $fields
+							"fields" => $fields,
+							"payment_intent" => $paymentintent["id"]
 						);
-
-						$_SESSION["stripe_payment_intent"] = $paymentintent["id"];
 
 						header("Location: " . $result["data"]["next_action"]["redirect_to_url"]["url"]);
 
