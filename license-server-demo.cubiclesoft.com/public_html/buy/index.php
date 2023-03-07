@@ -213,6 +213,8 @@
 			$postvars = array(
 				"amount" => $quantity * $cost * 100,
 				"currency" => "usd",
+				"description" => $displaynamever . " " . $versions[$majorver]["info"]["product_classes"][0],
+				"metadata[userinfo]" => $fields["email"],
 				"payment_method" => $fields["card_details"],
 				"confirmation_method" => "manual",
 				"statement_descriptor" => "LSRV DEMO"
